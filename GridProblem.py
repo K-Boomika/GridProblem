@@ -1,6 +1,7 @@
 import sys
 from itertools import product
 
+# function checks if a given letter can be placed at a specific position (row, col) in the grid without violating the adjacent neighbor constraints.
 def isValid(letter, row, col, grid):
     neighbors = []
     for dr, dc in [(0, 1), (1, 0), (0, -1), (-1, 0)]:
@@ -19,6 +20,7 @@ def isValid(letter, row, col, grid):
 
     return False
 
+# function selects the unassigned variable with the smallest domain (fewest possible values) from the domain dictionary.
 def SelectUnassignedVariable(grid, domain):
     # Choose the variable with the smallest domain
     smallest_domain_size = float('inf')
@@ -29,6 +31,7 @@ def SelectUnassignedVariable(grid, domain):
             smallest_domain_var = (row, col)
     return smallest_domain_var
 
+# main recursive function that solves the grid problem using backtracking. It tries to assign valid letters to the empty cells in the grid based on the given constraints.
 def GridProblem(grid, remaining_letters, domain, row=0, col=0):
     if not remaining_letters:
         return True
@@ -74,6 +77,7 @@ def GridProblem(grid, remaining_letters, domain, row=0, col=0):
 
     return False
 
+# function reads the grid data from a file and returns it as a 2D list
 def getData(filename):
     grid = []
     with open(filename, 'r') as f:
@@ -85,6 +89,7 @@ def getData(filename):
             grid.append(row)
     return grid
 
+#  function determines the remaining unused letters that can be placed in the grid based on the letters already present in the grid.
 def getRemaining(grid):
     used_letters = set()
 
@@ -96,6 +101,8 @@ def getRemaining(grid):
     remaining_letters = set(chr(ord('A') + i) for i in range(25)) - used_letters
     return remaining_letters
 
+# function generates the domain dictionary for each empty cell in the grid. 
+# The domain represents the possible values (remaining letters) that can be assigned to each cell based on the adjacent neighbor constraints.
 def getDomain(grid):
     domain = {}
     for row, col in product(range(5), range(5)):
